@@ -1,12 +1,12 @@
 /**
- * Super simple wysiwyg editor on Bootstrap v0.5.8
+ * Super simple wysiwyg editor on Bootstrap v0.5.8.1
  * http://hackerwins.github.io/summernote/
  *
  * summernote.js
  * Copyright 2013 Alan Hong. and outher contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2014-08-31T03:57Z
+ * Date: 2014-09-06T08:20Z
  */
 (function (factory) {
   /* global define */
@@ -1088,7 +1088,7 @@
 
   var settings = {
     // version
-    version: '0.5.8',
+    version: '0.5.8.1',
 
     /**
      * options
@@ -1203,6 +1203,7 @@
       onImageUpload: null,      // imageUpload
       onImageUploadError: null, // imageUploadError
       onToolbarClick: null,
+      onMediaDelete: null,
 
       /**
        * manipulate link address when user create link
@@ -2300,7 +2301,7 @@
     /* jshint ignore:end */
 
     /**
-     * @param {jQuery} $editable 
+     * @param {jQuery} $editable
      * @param {WrappedRange} rng
      * @param {Number} tabsize
      */
@@ -2317,7 +2318,7 @@
 
     /**
      * handle tab key
-     * @param {jQuery} $editable 
+     * @param {jQuery} $editable
      * @param {Object} options
      */
     this.tab = function ($editable, options) {
@@ -2693,6 +2694,11 @@
      */
     this.removeMedia = function ($editable, value, $target) {
       recordUndo($editable);
+      var callbacks = $editable.data('callbacks');
+
+      if (callbacks.onMediaDelete) {
+        callbacks.onMediaDelete($target, this, $editable);
+      }
 
       $target.detach();
     };
@@ -3895,7 +3901,8 @@
         onImageUpload: options.onImageUpload,
         onImageUploadError: options.onImageUploadError,
         onFileUpload: options.onFileUpload,
-        onFileUploadError: options.onFileUpload
+        onFileUploadError: options.onFileUpload,
+        onMediaDelete: options.onMediaDelete
       });
     };
 
@@ -4503,7 +4510,7 @@
                    '<div class="title">' + lang.shortcut.shortcuts + '</div>' +
                    (agent.isMac ? tplShortcutTable(lang, options) : replaceMacKeys(tplShortcutTable(lang, options))) +
                    '<p class="text-center">' +
-                     '<a href="//hackerwins.github.io/summernote/" target="_blank">Summernote 0.5.8</a> · ' +
+                     '<a href="//hackerwins.github.io/summernote/" target="_blank">Summernote 0.5.8.1</a> · ' +
                      '<a href="//github.com/HackerWins/summernote" target="_blank">Project</a> · ' +
                      '<a href="//github.com/HackerWins/summernote/issues" target="_blank">Issues</a>' +
                    '</p>';

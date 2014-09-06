@@ -103,7 +103,7 @@ define([
     /* jshint ignore:end */
 
     /**
-     * @param {jQuery} $editable 
+     * @param {jQuery} $editable
      * @param {WrappedRange} rng
      * @param {Number} tabsize
      */
@@ -120,7 +120,7 @@ define([
 
     /**
      * handle tab key
-     * @param {jQuery} $editable 
+     * @param {jQuery} $editable
      * @param {Object} options
      */
     this.tab = function ($editable, options) {
@@ -496,6 +496,11 @@ define([
      */
     this.removeMedia = function ($editable, value, $target) {
       recordUndo($editable);
+      var callbacks = $editable.data('callbacks');
+
+      if (callbacks.onMediaDelete) {
+        callbacks.onMediaDelete($target, this, $editable);
+      }
 
       $target.detach();
     };
